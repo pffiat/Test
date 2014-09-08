@@ -1,11 +1,14 @@
 package controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import domain.GameDAO;
 
 /**
  * Servlet implementation class Dashboard
@@ -25,6 +28,8 @@ public class Dashboard extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		GameDAO gameDAO = GameDAO.getInstance();
+		gameDAO.getFirst();
 		getServletContext().getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request , response);
 	}
 
