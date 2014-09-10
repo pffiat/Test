@@ -29,7 +29,7 @@ public class Dashboard extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		GameDAO gameDAO = GameDAO.getInstance();
-		gameDAO.getFirst();
+		gameDAO.findAll();
 		getServletContext().getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request , response);
 	}
 
