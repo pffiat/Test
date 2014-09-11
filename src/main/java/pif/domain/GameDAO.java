@@ -1,13 +1,16 @@
-package domain;
+package pif.domain;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import modele.Game;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.lightcouch.CouchDbClient;
 import org.lightcouch.CouchDbProperties;
 import org.lightcouch.NoDocumentException;
+
+import pif.controller.Dashboard;
+import pif.modele.Game;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -19,6 +22,8 @@ public enum GameDAO {
 	/* don't put any variable in this class => different clients would share personal data and produce a bit mix*/
 	/* Every client share the same class to connect to the database : they use INSTANCE */
 	INSTANCE;
+	
+	private static final Log LOG = LogFactory.getLog(GameDAO.class);
 
 	private CouchDbProperties properties;
 
@@ -46,8 +51,9 @@ public enum GameDAO {
 			JsonObject json = dbClient3.find(JsonObject.class, "_all_docs");
 			listGame = parseJson(json);
 			JsonPrimitive jsonPrimitive = json.getAsJsonPrimitive("total_rows");
+			LOG.info(jsonPrimitive);
 		} catch(NoDocumentException e) {
-			System.out.println("no doc fund :s");
+			LOG.info("no doc fund :s");
 		}
 		return listGame;
 	}
@@ -60,7 +66,7 @@ public enum GameDAO {
 			listGame.add(new Game(id));
 		}
 		if(! listGame.isEmpty()) {
-			System.out.println(listGame.get(0).getId());
+			LOG.info(listGame.get(0).getId());
 		}
 		
 		return listGame;

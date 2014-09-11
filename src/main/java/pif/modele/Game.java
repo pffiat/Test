@@ -1,4 +1,4 @@
-package modele;
+package pif.modele;
 
 public class Game {
 	
