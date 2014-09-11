@@ -9,7 +9,7 @@
 
 Now you need to **update the .bashrc** => add two lines to inquire the path, JRE is optional, for example mine:
 
-```sh
+```javascript
 export JAVA_HOME=/opt/jdk
 export PATH=$JAVA_HOME/bin:$PATH
 
