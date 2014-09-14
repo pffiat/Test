@@ -1,6 +1,5 @@
 package pif.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,9 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.lightcouch.CouchDbClient;
 import org.lightcouch.CouchDbProperties;
-import org.lightcouch.DesignDocument;
 import org.lightcouch.NoDocumentException;
-import org.lightcouch.Params;
 
 import pif.modele.Game;
 
@@ -19,43 +16,34 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public enum GameDAO implements Serializable{
-
-	/* don't put any variable in this class => different clients would share personal data and produce a bit mix*/
-	/* Every client share the same class to connect to the database : they use INSTANCE */
-	INSTANCE;
+public enum TransactionDAO {
 	
-	private static final Log LOG = LogFactory.getLog(GameDAO.class);
+	INSTANCE;
+	private static final Log LOG = LogFactory.getLog(TransactionDAO.class);
 
 	private CouchDbProperties properties;
-
-	private GameDAO(){
-
+	
+	private TransactionDAO() {
 		properties = new CouchDbProperties()
-		.setDbName("game")
+		.setDbName("transactions")
 		.setCreateDbIfNotExist(false)
 		.setProtocol("http")
 		.setHost("localhost")
 		.setPort(5984)
 		.setMaxConnections(100)
-		.setConnectionTimeout(0);
-
+		.setConnectionTimeout(0);		
 	}
 
-	public static GameDAO getInstance() {
+	public static TransactionDAO getInstance(){
 		return INSTANCE;
 	}
 
-	public List<Game> findAll() {
+	public List<Game> findAll(){
 		List<Game> listGame = new ArrayList<Game>();
 		CouchDbClient dbClient3 = new CouchDbClient(properties);
 		try { 
-			JsonObject json = dbClient3.find(JsonObject.class, "_design/words/_view/values_by_words", new Params().addParam("limit", 3));
-			if(json != null) {
-				listGame = parseJsonRows(json);
-			} else {
-				throw new NoDocumentException("");
-			}
+			JsonObject json = dbClient3.find(JsonObject.class, "_all_docs");
+			listGame = parseJsonRows(json);
 			JsonPrimitive jsonPrimitive = json.getAsJsonPrimitive("total_rows");
 			LOG.info(jsonPrimitive);
 		} catch(NoDocumentException e) {
@@ -69,7 +57,6 @@ public enum GameDAO implements Serializable{
 		JsonArray jsonArray = jsonObject.getAsJsonArray("rows");
 		for (JsonElement jsonElement : jsonArray) {
 			String id = jsonElement.getAsJsonObject().get("id").toString();
-				listGame.add(new Game(id));
 		}
 		if(! listGame.isEmpty()) {
 			LOG.info(listGame.get(0).getId());
@@ -78,5 +65,5 @@ public enum GameDAO implements Serializable{
 		return listGame;
 	}
 
-}	
-	
+
+}
