@@ -9,20 +9,32 @@
 </head>
 <body>
 	SUPER FRY is a tocard !!!
-	<table class="game zebra-striped">
-		<thead>
-			<tr>
-				<th>ID Game</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<c:forEach var="game" items="${listGame}">
-					<td>${game.id}</td>
 
-				</c:forEach>
-			</tr>
-		</tbody>
-	</table>
+	<c:forEach var="game" items="${listGame.resultList}">
+		<p>${game.id}   ${game.rev} </p>
+	</c:forEach>
+
+
+	<%-- show paging status --%>
+	<p>
+		Showing: ${listGame.resultFrom} - ${listGame.resultTo} of total	${listGame.totalResults}
+
+		<%-- handle navigation --%>
+	<p>
+		<c:choose>
+			<c:when test="${listGame.hasPrevious}">
+				<a href="/BuyAStartup/Dashboard?param=${listGame.previousParam}"> Previous </a>
+			</c:when>
+			<c:otherwise> Previous </c:otherwise>
+		</c:choose>
+
+		${listGame.pageNumber}
+
+		<c:choose>
+			<c:when test="${listGame.hasNext}">
+				<a href="/BuyAStartup/Dashboard?param=${listGame.nextParam}"> Next </a>
+			</c:when>
+			<c:otherwise> Next </c:otherwise>
+		</c:choose>
 </body>
 </html>

@@ -1,11 +1,8 @@
 package pif.modele;
 
-import java.io.Serializable;
-
 import com.google.gson.annotations.SerializedName;
 
-public class Game implements Serializable {
-	
+public class IrrelevantWord {
 	/**
 	 * 
 	 */
@@ -17,10 +14,10 @@ public class Game implements Serializable {
 	@SerializedName("_rev")
 	private String rev;
 	
-	public Game() {
+	public IrrelevantWord() {
 	}
 
-	public Game(String id) {
+	public IrrelevantWord(String id) {
 		this.id = id;
 	}
 

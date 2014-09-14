@@ -1,7 +1,6 @@
 package pif.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,9 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.lightcouch.Page;
 
+import pif.domain.ArticleDAO;
 import pif.domain.GameDAO;
+import pif.domain.IrrelevantWordDAO;
+import pif.modele.Article;
 import pif.modele.Game;
+import pif.modele.IrrelevantWord;
 
 /**
  * Servlet implementation class Dashboard
@@ -35,9 +39,15 @@ public class Dashboard extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		LOG.info("Dashboard.doGet()");
+
+//		ArticleDAO articleDAO = ArticleDAO.getInstance();
+//		Page<Article> listArticle = articleDAO.findAll(request.getParameter("param"));
 		GameDAO gameDAO = GameDAO.getInstance();
-		List<Game> listGame = gameDAO.findAll();
-		request.setAttribute("listGame", listGame);
+		Page<Game> listGame = gameDAO.findAll(request.getParameter("param"));
+		IrrelevantWordDAO irrelevantWordDAO = IrrelevantWordDAO.getInstance();
+		Page<IrrelevantWord> listIrrelevantWord = irrelevantWordDAO.findAll(request.getParameter("param"));
+		request.setAttribute("listGame", listIrrelevantWord);
 		getServletContext().getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request , response);
 	}
 

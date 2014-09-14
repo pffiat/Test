@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Game implements Serializable {
-	
+public class Article implements Serializable {
 	/**
 	 * 
 	 */
@@ -17,10 +16,10 @@ public class Game implements Serializable {
 	@SerializedName("_rev")
 	private String rev;
 	
-	public Game() {
+	public Article() {
 	}
 
-	public Game(String id) {
+	public Article(String id) {
 		this.id = id;
 	}
 
